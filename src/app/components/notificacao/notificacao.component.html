@@ -1,0 +1,37 @@
+<div class="notificacao-container">
+  <h2>Enviar Nova Notificação</h2>
+  <div class="form-group">
+    <input type="text"
+           [formControl]="conteudoMensagem"
+           placeholder="Digite o conteúdo da notificação...">
+    <button (click)="enviarNotificacao()">
+      Enviar Notificação
+    </button>
+  </div>
+
+  <div class="lista-notificacoes">
+    <h3>Histórico de Notificações</h3>
+    <ul *ngIf="notificacoes.length > 0; else noNotificacoes">
+      <li *ngFor="let notif of notificacoes">
+        <div class="notificacao-item">
+          <p><strong>ID da Mensagem:</strong> {{ notif.mensagemId }}</p>
+          <p><strong>Conteúdo:</strong> {{ notif.conteudoMensagem }}</p>
+          <p>
+            <strong>Status:</strong>
+            <span [ngClass]="{
+              'status-aguardando': notif.status === 'AGUARDANDO PROCESSAMENTO',
+              'status-processado': notif.status === 'PROCESSADO',
+              'status-erro': notif.status === 'ERRO'
+            }">
+              {{ notif.status }}
+            </span>
+          </p>
+        </div>
+      </li>
+    </ul>
+
+    <ng-template #noNotificacoes>
+      <p class="empty-list-message">Nenhuma notificação enviada ainda.</p>
+    </ng-template>
+  </div>
+</div>
