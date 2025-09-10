@@ -6,7 +6,6 @@ import { NotificacaoComponent } from './notificacao.component';
 import { WebsocketService } from '../../services/websocket.service';
 import { of } from 'rxjs';
 
-// Mock do serviço de WebSocket
 class MockWebsocketService {
   onStatusUpdate() {
     return of({ mensagemId: 'mock-id', status: 'PROCESSADO' });
@@ -35,7 +34,6 @@ describe('NotificacaoComponent', () => {
   });
 
   afterEach(() => {
-    // Certifique-se de que não há requisições pendentes após cada teste
     httpTestingController.verify();
   });
 
@@ -56,6 +54,9 @@ describe('NotificacaoComponent', () => {
     const notificacaoAdicionada = component.notificacoes[0];
     expect(notificacaoAdicionada.status).toBe('AGUARDANDO PROCESSAMENTO');
     
+    // Validacao para o ID da mensagem
+    expect(notificacaoAdicionada.mensagemId).toBeDefined();
+
     // 3. Espera a requisição POST e a trata (limpa)
     const req = httpTestingController.expectOne('http://localhost:3000/api/notificar');
     expect(req.request.method).toBe('POST');
